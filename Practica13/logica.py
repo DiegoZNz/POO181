@@ -25,5 +25,6 @@ class diego:
         if include_special:
             chars += string.punctuation
         password = ''.join(random.choice(chars) for _ in range(long))
-        messagebox.showinfo("contraseña",password)
+        messagebox.showinfo("Contraseña",password)
+        return password
 

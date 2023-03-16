@@ -40,6 +40,14 @@ class Win(tk.Tk):
         self.añoentry.insert(0, "0")
         self.añoentry.pack()
         
+        #Parte de año EN CURSO
+        self.añoclbl = tk.Label(text="Año en curso:")
+        self.añoclbl.pack()
+        
+        self.añocentry = tk.Entry(self)
+        self.añocentry.insert(0, "2023")
+        self.añocentry.pack()
+        
         #Parte de la carrera
         
         self.Carreralbl = tk.Label(text="Ingresa carrera:")
@@ -54,8 +62,9 @@ class Win(tk.Tk):
         
         
         
+        
     def Generar(self):
-        GN=diego(self.nombreentry.get(),self.apellidoPentry.get(),self.apellidoMentry.get(),int(self.añoentry.get()),self.Carreraentry.get())
+        GN=diego(self.nombreentry.get(),self.apellidoPentry.get(),self.apellidoMentry.get(),int(self.añoentry.get()),int(self.añocentry.get()),self.Carreraentry.get())
         GN.generarMat() 
         
 

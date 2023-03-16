@@ -42,7 +42,6 @@ class Ventana(tk.Tk):
         seg=diego(self.entryLen.get(),self.estado.get(),self.estado1.get())
         seg.checarSeguridad(int(self.entryLen.get()))
         gen=diego(self.entryLen.get(),self.estado.get(),self.estado1.get())
-        
         #aqui esta la función del entry para copiar desde el mismo entry 
         self.entryCopy.delete(0, tk.END)
         self.entryCopy.insert(0,gen.generarContraseña(int(self.entryLen.get()),self.estado.get(),self.estado1.get()) )

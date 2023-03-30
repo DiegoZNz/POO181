@@ -26,6 +26,7 @@ class ControladorBD:
         
         if(nom=="" or cor=="" or con==""):
             messagebox.showwarning("Aguas","Formulario incompleto")
+            conx.close()
         else:
             #3. Preparamos el cursor, datos que voy a insertar y el querySQL
             
@@ -51,3 +52,28 @@ class ControladorBD:
         conHa = bcrypt.hashpw(ConPlana,sal)
         print (conHa)
         return conHa
+    
+    
+    def consultarUsuario(self,id):
+        
+        #1. usamos una conexion 
+        conx=self.conexionBD()
+        #2. validar parametros Vacios
+        
+        if(id==""):
+            messagebox.showwarning("Aguas","Campo vacío, ponga un id ")
+            conx.close()
+        else:
+            try:
+                #3 cursos y query
+                cursor=conx.cursor()
+                selectquery = "SELECT * FROM TBRegistrados WHERE id="+id
+                
+                #4.ejecuta y guarda la consulta
+                
+                cursor.execute(selectquery)
+                rsUsuario= cursor.fetchall()
+                conx.close()
+                return rsUsuario
+            except sqlite3.OperationalError:
+                print("error consulta")

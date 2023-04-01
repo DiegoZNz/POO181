@@ -20,7 +20,19 @@ def EjecutaConsult():
         textEnc.insert(tk.END,cadena) 
     else:
         textEnc.delete("1.0", tk.END)
-        messagebox.showinfo("Not found","No se encontro")      
+        messagebox.showinfo("Not found","No se encontro")    
+
+def consultar():
+    for row in tree.get_children():
+        tree.delete(row)
+    a=controlador.Consu()
+    while a:
+        row = a.pop(0)  # obtener la primera fila y eliminarla de la lista
+        tree.insert('', tk.END, values=(row))
+        
+
+        
+
 Ventana= Tk()
 Ventana.title("CRUD de Usuarios")
 Ventana.geometry("500x300")
@@ -46,14 +58,11 @@ txtCor= Entry(pestana1, textvariable=varCor).pack()
 varCon=tk.StringVar()
 lblCon= Label (pestana1, text= "Contraseña: ").pack()
 txtNom= Entry(pestana1, textvariable=varCon) .pack()
-
 btnGuardar=Button(pestana1,text='Guardar Usuario',command=EjecutaInsert).pack()
 
 
 # Pestaña 2: Buscar Usuario
 TituloSch=Label(pestana2,text="Buscar Usuario", fg="blue",font=("modern",18)).pack()
-
-
 varBus= tk.StringVar()
 lblId= Label(pestana2, text= "Identificador Usuario: ").pack()
 txtId= Entry (pestana2, textvariable=varBus) .pack()
@@ -62,6 +71,26 @@ SubSch=Label(pestana2,text="Encontrado", fg="blue",font=("modern",15)).pack()
 textEnc = Text(pestana2, height=5,width=52)
 textEnc.pack()
 
+
+# Pestaña 3: Consultar Usuarios
+TituloCons=Label(pestana3,text="Consultar Usuario", fg="blue",font=("modern",10)).pack()
+btnCons=Button(pestana3,text='Consultar',command=consultar).pack()
+
+#nuevo treeview
+columns = ('ID','Nombre', 'Correo', 'Contraseña')
+tree = ttk.Treeview(pestana3, columns=columns, show='headings')
+tree.heading("ID", text="ID")
+tree.heading("Nombre", text="Nombre")
+tree.heading("Correo", text="Correo")
+tree.heading("Contraseña", text="Contraseña")
+tree.pack()
+
+
+
+
+
+
+################################################
 panel.add (pestana1, text='Formulario usuarios')
 panel.add (pestana2, text='Buscar Usuario')
 panel.add (pestana3, text='Consultar usuarios')

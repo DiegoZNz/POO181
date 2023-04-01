@@ -8,10 +8,10 @@ class ControladorBD:
         pass
     
     
-    #Metodos para crear coexiones
+    #Metodos para crear conexiones
     def conexionBD(self):
         try:
-            conexion= sqlite3.connect("C:/Users/diego/Documents/GitHub/POO181/Ultimo parcial/Practica_15/tkinterSQLite/DBUsuarios.db")
+            conexion= sqlite3.connect("C:/Users/diego/Documents/GitHub/POO181/Ultimo parcial/Practica_15/DBUsuarios.db")
             print("conectado a la base de datos")
             return conexion
         except sqlite3.OperationalError:

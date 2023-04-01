@@ -22,16 +22,6 @@ def EjecutaConsult():
         textEnc.delete("1.0", tk.END)
         messagebox.showinfo("Not found","No se encontro")    
 
-def consultar():
-    for row in tree.get_children():
-        tree.delete(row)
-    a=controlador.Consu()
-    while a:
-        row = a.pop(0)  # obtener la primera fila y eliminarla de la lista
-        tree.insert('', tk.END, values=(row))
-        
-
-        
 
 Ventana= Tk()
 Ventana.title("CRUD de Usuarios")
@@ -74,7 +64,6 @@ textEnc.pack()
 
 # Pestaña 3: Consultar Usuarios
 TituloCons=Label(pestana3,text="Consultar Usuario", fg="blue",font=("modern",10)).pack()
-btnCons=Button(pestana3,text='Consultar',command=consultar).pack()
 
 #nuevo treeview
 columns = ('ID','Nombre', 'Correo', 'Contraseña')
@@ -95,5 +84,21 @@ panel.add (pestana1, text='Formulario usuarios')
 panel.add (pestana2, text='Buscar Usuario')
 panel.add (pestana3, text='Consultar usuarios')
 panel.add (pestana4, text='Actualizar usuario')
+
+
+#Funcion para actualizar automaticamente los registros
+def Consu(event):
+    # verificar si la pestaña seleccionada es la segunda página
+    current_tab = event.widget.tab('current')['text']
+    if current_tab == 'Consultar usuarios':
+        
+        for row in tree.get_children():
+            tree.delete(row)
+        a=controlador.Consu()
+        while a:
+            row = a.pop(0)  
+            tree.insert('', tk.END, values=(row))   
+panel.bind('<<NotebookTabChanged>>', Consu)
+
 
 Ventana.mainloop()

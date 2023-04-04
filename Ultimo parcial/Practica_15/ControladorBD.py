@@ -7,12 +7,10 @@ class ControladorBD:
     def __init__(self):
         pass
     
-    
     #Metodos para crear conexiones
     def conexionBD(self):
         try:
             conexion= sqlite3.connect("C:/Users/diego/Documents/GitHub/POO181/Ultimo parcial/Practica_15/DBUsuarios.db")
-            print("conectado a la base de datos")
             return conexion
         except sqlite3.OperationalError:
             print("No se pudo conectar a la base de datos")
@@ -50,7 +48,6 @@ class ControladorBD:
         
         sal= bcrypt.gensalt()
         conHa = bcrypt.hashpw(ConPlana,sal)
-        print (conHa)
         return conHa
     
     
@@ -81,7 +78,6 @@ class ControladorBD:
     def Consu(self):
         #1. usamos una conexion 
         conx=self.conexionBD()
-
         try:
             #3 cursos y query
             cursor=conx.cursor()
@@ -100,3 +96,54 @@ class ControladorBD:
 
         except sqlite3.OperationalError:
             print("error consulta")
+
+
+    def ActualizarUsuario(self, id, nom,cor,con):
+        #1. usamos una conexion 
+        conx=self.conexionBD()
+        
+        #2. validar parámetros vacíos
+        
+        if(nom=="" or cor=="" or con==""):
+            messagebox.showwarning("Cuidado","No puede dejar campos incompletos, complete todos los campos")
+            conx.close()
+            return False
+        else:
+            #3. Preparamos el cursor, datos que voy a insertar y el querySQL
+            cursor= conx.cursor()
+            conE=self.encriptarCon(con)
+            datosUP=(nom,cor,conE)
+            qrUpdate="UPDATE TBRegistrados SET Nombre=?,Correo=?, Contra=? Where id="+id
+            
+            #4.Ejecutamos el Update y cerramos la conexión
+            cursor.execute(qrUpdate,datosUP)           
+            conx.commit()
+            conx.close
+            messagebox.showinfo("Exito","Usuario Actualizado")
+            return True
+        
+        #se retornan true o false para hacer uso de la limpieza de los entry's ya que si no se completo los campos, no se borren, pero si se completo el UPDATE
+        #pues se borren y se oculten para evitar bugs, y se mande el mensaje de exito.
+    
+    def EliminarUser(self,id):
+        conx=self.conexionBD()
+        #Preguntar si quiere eliminar 
+        confirmar = messagebox.askyesno("Eliminar Usuario", "¿Está seguro que desea eliminar este usuario?")
+        if confirmar==True:
+            try:
+                #3 cursos y query
+                cursor=conx.cursor()
+                DLTQR = "DELETE FROM TBRegistrados WHERE id="+id
+                #4.ejecuta y guarda la consulta
+                cursor.execute(DLTQR)
+                conx.commit()
+                conx.close
+                return True
+            except sqlite3.OperationalError:
+                print("error consulta")
+        else:
+            messagebox.showerror("Error", "No se pudo eliminar el usuario.")
+            conx.close
+            return False
+        #se retornan true o false para hacer la verificación de ocultar los entrys y las etiquetas o mandar error de eliminar usuario por si se presiona que no quiere eliminarlo.
+            

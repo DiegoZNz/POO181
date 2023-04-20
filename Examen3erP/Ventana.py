@@ -34,7 +34,13 @@ def modificar():
     txtCant.insert(0, values[2])
     panel.select(1)
 
-
+def actualizar():
+    if controlador.ActualizarMaterial(varIdUp.get(),varNom.get(),varCant.get()):
+        txtId.delete("0", "end")
+        txtNom.delete("0", "end")
+        txtCant.delete("0", "end")
+        panel.forget(1)
+        panel.select(0)
 
 
 
@@ -86,7 +92,7 @@ txtCant = tk.Entry(pestana2, textvariable=varCant)
 txtCant.pack()
 btna=Button(pestana2,text="Agregar",command=agregar)
 
-btnactu=Button(pestana2,text="Actualizar")
+btnactu=Button(pestana2,text="Actualizar",command=actualizar)
 
 
 
